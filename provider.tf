@@ -1,11 +1,11 @@
 provider "google" {
-  alias      = "project-data"
-  project    = var.project-id-data
+  alias       = "project-marketing"
+  project     = var.project-id-marketing
   credentials = file("key.json")
 }
 
 provider "google" {
-  alias      = "project-consumer"
-  project    = var.project-id-consumer
+  alias       = "project-sales"
+  project     = var.project-id-sales
   credentials = file("key.json")
 }

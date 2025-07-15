@@ -1,2 +1,2 @@
-project-id-data = "wavestone-cto-pocinterproj-a"
-project-id-consumer = "wavestone-cto-pocinterproj-b"
+project-id-marketing = "wavestone-cto-pocinterproj-a"
+project-id-sales     = "wavestone-cto-pocinterproj-b"

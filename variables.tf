@@ -1,9 +1,9 @@
-variable "project-id-data" {
-  description = "The ID of the Google Cloud project to use for data."
+variable "project-id-marketing" {
+  description = "The ID of the Google Cloud project to use for marketing."
   type        = string
 }
 
-variable "project-id-consumer" {
-  description = "The ID of the Google Cloud project to use for consumers."
+variable "project-id-sales" {
+  description = "The ID of the Google Cloud project to use for sales."
   type        = string
 }
