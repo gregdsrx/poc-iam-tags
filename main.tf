@@ -219,13 +219,11 @@ module "bigquery_table_user_informations" {
 
              ############   IAM   ############
 
-### Roles niveau projet ###
-
 module "marketing_bigquery_job_user" {
   source     = "./iam/project"
   project_id = var.project-id-marketing
   role       = "roles/bigquery.jobUser"
-  member     = "user:dataanalystpoctags@gmail.com"
+  member     = "user:${var.data-analyst}"
 }
 
 module "marketing_data_analyst_bigquery_data_viewer" {
@@ -233,7 +231,7 @@ module "marketing_data_analyst_bigquery_data_viewer" {
   
   project_id = var.project-id-marketing
   role       = "roles/bigquery.dataViewer"
-  member     = "user:dataanalystpoctags@gmail.com"
+  member     = "user:${var.data-analyst}"
 
   condition_enabled   = true
   condition_title     = "Give access only to low and medium sensitivity data"
@@ -248,12 +246,12 @@ module "marketing_data_analyst_bigquery_metadata_viewer" {
   
   project_id = var.project-id-marketing
   role       = "roles/bigquery.metadataViewer"
-  member     = "user:dataanalystpoctags@gmail.com"
+  member     = "user:${var.data-analyst}"
 
   condition_enabled   = true
   condition_title     = "Give access only to low and medium sensitivity data"
   condition_description = "Donne accès seulement aux données de sensibilité faible ou moyenne"
   condition_expression  = <<EOT
-resource.matchTagId("${module.tag_sensitivity.tag_key_id}", "${module.tag_sensitivity.tag_values_ids["low"]}") & || resource.matchTagId("${module.tag_sensitivity.tag_key_id}", "${module.tag_sensitivity.tag_values_ids["medium"]}")
+resource.matchTagId("${module.tag_sensitivity.tag_key_id}", "${module.tag_sensitivity.tag_values_ids["low"]}") || resource.matchTagId("${module.tag_sensitivity.tag_key_id}", "${module.tag_sensitivity.tag_values_ids["medium"]}")
 EOT
 }
