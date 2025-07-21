@@ -4,7 +4,7 @@ import random
 from datetime import datetime, timedelta
 
 # Configuration
-output_root = "data"
+output_root = "marketing_data"
 start_month = 1
 end_month = 6
 year = 2025
