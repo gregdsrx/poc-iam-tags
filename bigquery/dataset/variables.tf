@@ -12,3 +12,8 @@ variable "location" {
   type        = string
   default     = "EU"
 }
+
+variable "tag_value" {
+  description = "Valeur de tag à associer à la table"
+  type = string
+}
