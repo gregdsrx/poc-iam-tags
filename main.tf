@@ -23,10 +23,10 @@ data "google_project" "sales" {
              ############   TAGS   ############
 
 # Création de la clé de tag "domaine" avec plusieurs valeurs (marketing, sales, rh)
-module "tag_domaine" {
+module "tag_domain" {
   source = "./tags"
   parent_project      = var.project-id-marketing
-  tag_key_short_name  = "domaine"
+  tag_key_short_name  = "domain"
   tag_key_description = "Tag clé pour les domaines métiers"
   tag_values = [
     { short_name = "marketing", description = "Domaine marketing" },
@@ -65,14 +65,14 @@ module "tag_sensitivity" {
 module "tag_binding_project_marketing" {
   source = "./project"
   project_number = data.google_project.marketing.number
-  tag_value_id   = module.tag_domaine.tag_values_ids["marketing"]
+  tag_value_id   = module.tag_domain.tag_values_ids["marketing"]
 }
 
-# Association d'un tag "domaine=sales" au projet sales
+# Association d'un tag "domain=sales" au projet sales
 module "tag_binding_project_sales" {
   source = "./project"
   project_number = data.google_project.sales.number
-  tag_value_id   = module.tag_domaine.tag_values_ids["sales"]
+  tag_value_id   = module.tag_domain.tag_values_ids["sales"]
 }
 
 

@@ -10,5 +10,3 @@ resource "google_tags_tag_binding" "binding" {
   parent    = "//cloudresourcemanager.googleapis.com/projects/${var.project_number}"
   tag_value = var.tag_value_id
 }
-
-### Politiques IAM ###

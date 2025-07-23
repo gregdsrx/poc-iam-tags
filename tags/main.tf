@@ -5,7 +5,7 @@ resource "google_tags_tag_key" "key" {
 }
 
 resource "google_tags_tag_value" "values" {
-  for_each    = { for v in var.tag_values : v.short_name => v }
+  for_each    = { for v in var.tag_values : v.short_name => v } # Permet de créer une liste de valeurs
   parent      = google_tags_tag_key.key.id
   short_name  = each.value.short_name
   description = each.value.description

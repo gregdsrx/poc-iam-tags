@@ -1,0 +1,4 @@
+google-cloud-bigquery
+google-cloud-resource-manager
+google-cloud-logging
+google-cloud-asset
