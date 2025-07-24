@@ -35,19 +35,6 @@ module "tag_domain" {
   ]
 }
 
-# Création de la clé de tag "env" avec les valeurs dev, prod, test
-module "tag_env" {
-  source = "./tags"
-  parent_project      = var.project-id-marketing
-  tag_key_short_name  = "env"
-  tag_key_description = "Tag clé pour l'environnement"
-  tag_values = [
-    { short_name = "dev", description = "Development environment" },
-    { short_name = "prod", description = "Production environment" },
-    { short_name = "test", description = "Test environment" },
-  ]
-}
-
 # Création de la clé de tag "sensitivity" pour la confidentialité des données
 module "tag_sensitivity" {
   source = "./tags"
@@ -125,7 +112,7 @@ module "bigquery_dataset_marketing" {
   project_id = var.project-id-marketing
   dataset_id = "marketing_dataset"
   location   = "EU"
-  tag_value = "low"
+  tag_value = module.tag_sensitivity.tag_values_short_names["low"]
 }
 
 # Création du dataset BigQuery "sales_dataset" dans le projet sales
@@ -134,7 +121,7 @@ module "bigquery_dataset_sales" {
   project_id = var.project-id-sales
   dataset_id = "sales_dataset"
   location   = "EU"
-  tag_value = "low"
+  tag_value = module.tag_sensitivity.tag_values_short_names["low"]
 }
 
 # Création du dataset BigQuery "sensitive_information" dans le projet marketing
@@ -143,7 +130,7 @@ module "bigquery_dataset_sensitive_information" {
   project_id = var.project-id-marketing
   dataset_id = "sensitive_information"
   location   = "EU"
-  tag_value = "high"
+  tag_value = module.tag_sensitivity.tag_values_short_names["high"]
 }
 
 # Création d'une connexion BigLake dans le projet marketing pour accéder à GCS
@@ -164,6 +151,7 @@ module "bigquery_connection_sales" {
 
 # Création d'une table externe BigQuery dans le dataset marketing, basée sur le contenu GCS
 module "bigquery_table_marketing" {
+  depends_on = [module.bigquery_dataset_marketing]
   source = "./bigquery/table_externe"
   project_id       = var.project-id-marketing
   dataset_id       = module.bigquery_dataset_marketing.dataset_id
@@ -181,6 +169,7 @@ module "bigquery_table_marketing" {
 
 # Création d'une table externe BigQuery dans le dataset sales, basée sur le contenu GCS
 module "bigquery_table_sales" {
+  depends_on = [module.bigquery_dataset_sales]
   source = "./bigquery/table_externe"
   project_id       = var.project-id-sales
   dataset_id       = module.bigquery_dataset_sales.dataset_id
@@ -199,9 +188,10 @@ module "bigquery_table_sales" {
 
 # Création d'une table BigQuery dans le dataset marketing avec des informations confidentielles sur les utilisateurs
 module "bigquery_table_user_informations" {
+  depends_on = [module.bigquery_dataset_marketing]
   source = "./bigquery/table"
   project_id = var.project-id-marketing
-  dataset_id = "sensitive_information"
+  dataset_id = module.bigquery_dataset_marketing.dataset_id
   table_id = "user_informations"
 
   schema = [

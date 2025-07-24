@@ -15,4 +15,6 @@ resource "google_bigquery_table" "external" {
     }
     connection_id = var.connection_name
   }
+
+  deletion_protection = false
 }

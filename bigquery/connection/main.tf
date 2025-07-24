@@ -16,7 +16,7 @@ resource "google_project_iam_member" "default" {
 # This makes the script wait for seven minutes before proceeding.
 # This lets IAM permissions propagate.
 resource "time_sleep" "default" {
-  create_duration = "7m"
+  create_duration = "1m"
 
   depends_on = [google_project_iam_member.default]
 }
